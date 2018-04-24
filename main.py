@@ -147,8 +147,17 @@ def peekDeck(slackclient,userId):
     deck.append(card1)
     slackclient.api_call("chat.postMessage", channel=userId, text='Top of Deck:\n1. ' + card1 + '\n2. ' + card2 + '\n3. ' + card3, as_user=True)
 
-
-
+def flipDeck(slackclient):
+    global deck
+    global liberalsPlayed
+    global fascistsPlayed
+    topCard = deck.pop().lower()
+    if(topCard == 'fascist'):
+        fascistsPlayed = fascistsPlayed + 1
+    elif(topCard == 'liberal'):
+        liberalsPlayed = liberalsPlayed + 1
+    slackclient.api_call("chat.postMessage", channel="CA1HP594N", text='A ' + topCard + ' tile was flipped!' ,as_user=True)
+    printBoard(slackclient)
 
 @app.route('/', methods=['POST'])
 def slackEntryPoint():
@@ -217,6 +226,9 @@ def slackEntryPoint():
         if(jsonData['event']['text'] == '<@UA00TD12L> peek'):
             peekDeck(slackclient,userId)
 
+        if(jsonData['event']['text'] == '<@UA00TD12L> flip'):
+            flipDeck(slackclient)
+
         if(jsonData['event']['text'].startswith('<@UA00TD12L> kill')):
             withoutStart = jsonData['event']['text'].replace('<@UA00TD12L> kill ','')
             withoutLeftJunk = withoutStart.replace('<@','')
@@ -235,6 +247,7 @@ def slackEntryPoint():
             liberal - Plays a liberal tile.
             players - Displays the list of players.
             board - Displays the current state of the game. The board and the players list.
+            flip - Flips and plays the tile on top of the deck. Only to be used if 3 failed elections/vetoes in a row.
             peek - President uses this power on the 3rd fascist tile played in a 5/6 player game.
             kill @slackname - President uses this power to kill a player on the 4th and 5th fascist tile played.
             """
