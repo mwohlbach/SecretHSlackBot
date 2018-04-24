@@ -7,6 +7,7 @@ create - Resets current game and starts a new lobby.
       fascist - Plays a fascist tile.  
       liberal - Plays a liberal tile.  
       players - Displays the list of players.  
-      board - Displays the current state of the game. The board and the players list.  
-      peek - President uses this power on the 3rd fascist tile played in a 5/6 player game.  
+      board - Displays the current state of the game. The board and the players list.   
+      flip - Flips and plays the tile on top of the deck. Only to be used if 3 failed elections/vetoes in a row.   
+      peek - President uses this power on the 3rd fascist tile played in a 5/6 player game.    
       kill @slackname - President uses this power to kill a player on the 4th and 5th fascist tile played.  
